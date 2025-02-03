@@ -7,11 +7,17 @@
 <body>
 	<h1>Form</h1>
     <form action="#" th:action="@{/user/newUser}" th:object="${user}" method="post">
-    	<!--<p>Id: <input type="text" th:field="*{id}" /></p>-->
-        <md-outlined-text-field required type="text" label="Username" th:field="*{username}"></md-outlined-text-field>
-        <md-outlined-text-field required type="password" label="Password" th:field="*{password}"></md-outlined-text-field>
-        <p>E-Mail: <input type="email" th:field="*{email}" /></p>
-        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+        <p>
+        <md-outlined-text-field type="text" label="Username" name="username"></md-outlined-text-field>
+        </p>
+        <p>
+        <md-outlined-text-field type="password" label="Password" name="password"></md-outlined-text-field>
+        </p>
+        <p>
+        <md-outlined-text-field type="email" label="E-Mail" name="email"></md-outlined-text-field>
+        </p>
+        <p> <md-outlined-button type="submit">Submit</md-outlined-button>
+            <md-outlined-button type="reset">Reset</md-outlined-button> </p>
     </form>
 </body>
 <script type="module" src="/app.js"></script>

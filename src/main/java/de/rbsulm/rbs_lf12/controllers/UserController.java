@@ -30,6 +30,7 @@ public class UserController {
   @PostMapping(path="/newUser") // Map ONLY POST Requests
   public String addNewUser(@ModelAttribute User user, Model model) {
     model.addAttribute("user", user);
+
     final String password = new BCryptPasswordEncoder().encode(user.getPassword());
     user.setPassword(password);
     user.setEnabled(true);

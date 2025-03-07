@@ -1,0 +1,1 @@
+INSERT INTO lf12.users (id, email, enabled, password, username) VALUES (1, 'admin@admin.com', true, '$2a$10$gtZRM7mKity4ab.P2IuC5eIjA0ht3cDcg.LcdfgS84Ns6gCzGMZH2', 'admin');

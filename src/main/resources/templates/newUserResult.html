@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>New User Result | HOME PLANER</title>
+</head>
+<body>
+<div th:replace="~{fragments/main :: main(loc='Users',breadcrumb=~{ :: .result})}">
+    <div class="result container">
+        <p th:text="'name: ' + ${user.username}" />
+        <p th:text="'email: ' + ${user.email}" />
+        <a href="/user/newUser">Add another user</a>
+        <a href="/user/show">Back</a>
+    </div>
+</div>
+</body>
+</html>

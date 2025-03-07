@@ -1,16 +1,29 @@
 <!DOCTYPE HTML>
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
-    <title>Getting Started: Handling Form Submission</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Users | HOME PLANER</title>
 </head>
 <body>
-<h1>Users</h1>
-<div th:each="user : ${users}">
-    <p th:text="'id: ' + ${user.id}" />
-    <p th:text="'name: ' + ${user.username}" />
-    <p th:text="'email: ' + ${user.email}" />
+<div th:replace="~{fragments/main :: main(loc='Users',breadcrumb=~{ :: .users})}">
+    <div class="users">
+        <md-list>
+            <md-list-item>
+                Users
+            </md-list-item>
+            <md-divider></md-divider>
+            <md-list-item th:each="user : ${users}">
+                <div slot="headline" th:text="${user.username}"></div>
+                <div slot="supporting-text" th:text="${user.email}"></div>
+            </md-list-item>
+            <md-list-item
+                type="link"
+                href="/user/newUser">
+                <div slot="headline">Add new user</div>
+                <div slot="supporting-text">Add new user</div>
+                <md-icon slot="end">add</md-icon>
+            </md-list-item>
+        </md-list>
+    </div>
 </div>
-    <a href="/user/newUser">Add new user</a>
 </body>
 </html>

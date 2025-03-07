@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>New Todo Result | HOME PLANER</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div th:replace="~{fragments/main :: main(loc='Todos',breadcrumb=~{ :: .result})}">
+    <div class="result container">
+        <p th:text="'Title: ' + ${todo.title}" />
+        <p th:text="'Description: ' + ${todo.description}" />
+        <p th:text="'Due date: ' + ${todo.getDueDate().toLocaleString()}" />
+        <a href="/todo/newTodo">Add another todo</a>
+        <a href="/todo/show">Back</a>
+    </div>
+</div>
+</body>
+</html>

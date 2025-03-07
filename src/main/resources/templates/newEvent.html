@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>New Event | HOME PLANER</title>
+</head>
+<body>
+<div th:replace="~{fragments/main :: main(loc='Calendar',breadcrumb=~{ :: .new})}">
+    <form class="new container" action="#" th:action="@{/calendarEvent/newEvent}" th:object="${event}" method="post">
+        <md-outlined-text-field th:required="true" type="text" label="Title" name="title"></md-outlined-text-field>
+        <md-outlined-text-field type="text" label="Description" name="description"></md-outlined-text-field>
+        <md-outlined-text-field type="text" label="Location" name="location"></md-outlined-text-field>
+        <md-outlined-select th:required="true" name="category" label="Category">
+            <md-select-option th:each="category : ${categories}" th:value="${category.id}">
+                <div slot="headline" th:text="${category.category}"></div>
+            </md-select-option>
+        </md-outlined-select>
+        <input th:required="true" type="datetime-local" name="startDate" id="startDate">
+        <div><md-outlined-button type="submit">Submit</md-outlined-button>
+            <md-outlined-button type="reset">Reset</md-outlined-button> </div>
+    </form>
+</div>
+</body>
+</html>

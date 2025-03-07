@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>header</title>
+</head>
+<body>
+<div th:fragment="header (location)">
+<div th:replace="~{fragments/styles.html :: styles}"></div>
+    <div class="header">
+        <h1 class="title">HOME PLANER</h1>
+        <div class="header-right">
+           <span style="position: relative">
+              <md-icon-button id="usage-anchor">
+                  <md-icon>account_circle</md-icon>
+              </md-icon-button>
+              <md-menu id="usage-menu" anchor="usage-anchor">
+                <md-menu-item type="link" th:href="@{/user/user/{id}(id = ${currentUser.id})}">
+                    <div slot="headline" th:text="${currentUser.username}"></div>
+                </md-menu-item>
+                <md-menu-item>
+                    <div slot="headline">Settings</div>
+                </md-menu-item>
+                <md-menu-item type="link" th:href="@{/logout}">
+                    <div slot="headline">Logout</div>
+                </md-menu-item>
+              </md-menu>
+            </span>
+        </div>
+    </div>
+    <div class="navbar">
+        <md-tabs id="tabs">
+            <md-primary-tab active th:if="(${location} == 'Home')">Home</md-primary-tab>
+            <md-primary-tab type="link" th:href="@{/home}" th:if="(${location} != 'Home')">Home</md-primary-tab>
+            <md-primary-tab active th:if="(${location} == 'Users')">Users</md-primary-tab>
+            <md-primary-tab th:if="(${location} != 'Users')">Users</md-primary-tab>
+            <md-primary-tab active th:if="(${location} == 'Todos')">Todos</md-primary-tab>
+            <md-primary-tab th:if="(${location} != 'Todos')">Todos</md-primary-tab>
+            <md-primary-tab active th:if="(${location} == 'Calendar')">Calendar</md-primary-tab>
+            <md-primary-tab th:if="(${location} != 'Calendar')">Calendar</md-primary-tab>
+        </md-tabs>
+    </div>
+<script type="module" src="/app.js"></script>
+</div>
+</body>
+</html>

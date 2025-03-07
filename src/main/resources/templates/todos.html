@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Todos | HOME PLANER</title>
+</head>
+<body>
+<div th:replace="~{fragments/main :: main(loc='Todos',breadcrumb=~{ :: .todos})}">
+    <div class="todos">
+        <md-list>
+            <md-list-item>
+                Todos
+            </md-list-item>
+            <md-divider></md-divider>
+            <md-list-item th:each="todo : ${todos}">
+                <div slot="headline" th:text="${todo.title}"></div>
+                <div slot="supporting-text" th:text="${todo.description}"></div>
+                <div slot="end" th:text="${todo.getDueDateString()}"></div>
+            </md-list-item>
+            <md-list-item
+                    type="link"
+                    href="/todo/newTodo">
+                <div slot="headline">Add new todo</div>
+                <div slot="supporting-text">Add new todo</div>
+                <md-icon slot="end">add</md-icon>
+            </md-list-item>
+        </md-list>
+    </div>
+</div>
+</body>
+</html>

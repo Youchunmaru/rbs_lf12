@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>New User | HOME PLANER</title>
+</head>
+<body>
+<div th:replace="~{fragments/main :: main(loc='Users',breadcrumb=~{ :: .new})}">
+    <form class="new container" action="#" th:action="@{/user/newUser}" th:object="${user}" method="post">
+        <md-outlined-text-field type="text" label="Username" name="username"></md-outlined-text-field>
+        <md-outlined-text-field type="password" label="Password" name="password"></md-outlined-text-field>
+        <md-outlined-text-field type="email" label="E-Mail" name="email"></md-outlined-text-field>
+        <div><md-outlined-button type="submit">Submit</md-outlined-button>
+            <md-outlined-button type="reset">Reset</md-outlined-button></div>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Handling Form Submission</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div th:replace="~{fragments/main :: main(loc='Users',breadcrumb=~{ :: .result})}">
+    <div class="result container">
+        <p th:text="'name: ' + ${user.username}" />
+        <p th:text="'email: ' + ${user.email}" />
+        <a th:href="@{/user/user/{id}(id = ${user.id})}">Back</a>
+    </div>
+</div>
+</body>
+</html>

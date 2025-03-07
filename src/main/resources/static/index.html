@@ -4,11 +4,46 @@
     <meta charset="UTF-8">
     <title>HomePlaner</title>
     <link rel="stylesheet" href="default.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
 </head>
 <body>
-<!--
-todo add links to calendar, weather and todo sites
--->
-<a href="/user/show">Users</a>
+<div class="app" id="app">
+    <div class="header">
+        <h1 class="title">HOME PLANER</h1>
+        <div class="header-right">
+           <span style="position: relative">
+              <md-icon-button id="usage-anchor">
+                  <md-icon>account_circle</md-icon>
+              </md-icon-button>
+              <!--<md-filled-button id="usage-anchor">User</md-filled-button>-->
+              <md-menu id="usage-menu" anchor="usage-anchor">
+                <md-menu-item>
+                    <a href="/user/show">Benutzer</a>
+                </md-menu-item>
+                <md-menu-item>
+                    <a href="/">Settings</a>
+                </md-menu-item>
+                <md-menu-item>
+                    <a href="/logout">Logout</a>
+                </md-menu-item>
+              </md-menu>
+            </span>
+        </div>
+    </div>
+    <div class="navbar">
+       <md-tabs id="tabs">
+          <md-primary-tab acitve><a href="/">Home</a></md-primary-tab>
+          <md-primary-tab><a href="/user/show">Users</a></md-primary-tab>
+          <md-primary-tab><a href="/">Todos</a></md-primary-tab>
+          <md-primary-tab><a href="/">Calendar</a></md-primary-tab>
+        </md-tabs>
+    </div>
+    <div class="container">
+        <div class="link-panel">
+
+        </div>
+    </div>
+</div>
+<script type="module" src="/app.js"></script>
 </body>
 </html>

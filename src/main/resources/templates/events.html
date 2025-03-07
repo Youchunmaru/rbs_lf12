@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Events | HOME PLANER</title>
+</head>
+<body>
+<div th:replace="~{fragments/main :: main(loc='Calendar',breadcrumb=~{ :: .events})}">
+    <div class="events">
+        <md-list>
+            <md-list-item>
+                Events
+            </md-list-item>
+            <md-divider></md-divider>
+            <md-list-item th:each="event : ${events}">
+                <div slot="headline" th:text="${event.title}"></div>
+                <div slot="supporting-text" th:text="${event.description} + '  ' + ${event.location}"></div>
+                <div slot="trailing-supporting-text" th:text="${event.category.category}"></div>
+                <div slot="end" th:text="${event.startDate}"></div>
+                <!--<p th:text="'id: ' + ${user.id}" />
+                <p th:text="'name: ' + ${user.username}" />
+                <p th:text="'email: ' + ${user.email}" />-->
+            </md-list-item>
+            <md-list-item
+                    type="link"
+                    href="/calendarEvent/newEvent">
+                <div slot="headline">Add new event</div>
+                <div slot="supporting-text">Add new event</div>
+                <md-icon slot="end">add</md-icon>
+            </md-list-item>
+            <md-list-item
+                    type="link"
+                    href="/calendarEvent/newCategory">
+                <div slot="headline">Add new category</div>
+                <div slot="supporting-text">Add new category</div>
+                <md-icon slot="end">add</md-icon>
+            </md-list-item>
+        </md-list>
+    </div>
+</div>
+</body>
+</html>

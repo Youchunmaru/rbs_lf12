@@ -2,23 +2,16 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <title>Getting Started: Handling Form Submission</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-	<h1>Form</h1>
-    <form action="#" th:action="@{/user/newUser}" th:object="${user}" method="post">
-        <p>
+<div th:replace="~{fragments/main :: main(loc='Users',breadcrumb=~{ :: .edit})}">
+    <form class="edit container" action="#" th:action="@{/user/edit/{id}(id = ${user.id})}" th:object="${user}" method="post">
         <md-outlined-text-field type="text" label="Username" name="username"></md-outlined-text-field>
-        </p>
-        <p>
         <md-outlined-text-field type="password" label="Password" name="password"></md-outlined-text-field>
-        </p>
-        <p>
         <md-outlined-text-field type="email" label="E-Mail" name="email"></md-outlined-text-field>
-        </p>
         <p> <md-outlined-button type="submit">Submit</md-outlined-button>
             <md-outlined-button type="reset">Reset</md-outlined-button> </p>
     </form>
+</div>
 </body>
-<script type="module" src="/app.js"></script>
 </html>

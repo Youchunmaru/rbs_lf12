@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>New Todo | HOME PLANER</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div th:replace="~{fragments/main :: main(loc='Todos',breadcrumb=~{ :: .new})}">
+    <form class="new container" action="#" th:action="@{/todo/newTodo}" th:object="${todo}" method="post">
+        <md-outlined-text-field th:required="true" type="text" label="Title" name="title"></md-outlined-text-field>
+        <md-outlined-text-field type="textarea" label="Description" name="description"></md-outlined-text-field>
+        <input type="date" name="dueDate" id="dueDate">
+        <div><md-outlined-button type="submit">Submit</md-outlined-button>
+            <md-outlined-button type="reset">Reset</md-outlined-button></div>
+    </form>
+</div>
+</body>
+</html>

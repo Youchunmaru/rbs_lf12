@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>HOME PLANER</title>
+</head>
+<body>
+<div th:insert="fragments/main :: main(loc='Home',breadcrumb=~{ :: .breadcrumb})">
+    <div class="breadcrumb">
+        <div class="main-grid">
+            <div id="user" class="container">
+                <h2>User</h2>
+                <div class="content">
+                    <p th:text="'Name: ' + ${currentUser.username}" />
+                    <p th:text="'E-Mail: ' + ${currentUser.email}" />
+                </div>
+            </div>
+            <div id="todos" class="container">
+                <h2>Todos</h2>
+                <div class="content">
+                    <p>todo info</p>
+                </div>
+            </div>
+            <div id="calendar" class="container">
+                <h2>Calendar</h2>
+                <div class="content">
+                    <p>calendar info</p>
+                </div>
+            </div>
+            <div id="weather" class="container">
+                <h2>Weather</h2>
+                <div class="content">
+                    <h3 th:text="'Location: ' + ${forecast.location()}"></h3>
+                    <h3>Current</h3>
+                    <p th:text="'Temparature: ' + ${forecast.current().tempC()} + 'C°'"/>
+                    <p th:text="'Niederschlag: ' + ${forecast.current().precipMm()} + 'mm'"/>
+                    <p th:text="'Windgeschwindigkeit: ' + ${forecast.current().windKph()} + 'kph'"/>
+                    <h3 th:if="${forecast.tomorrow() != null}">Tomorrow</h3>
+                    <p th:if="${forecast.tomorrow() != null}" th:text="'Temparature: ' + ${forecast.tomorrow().tempC()} + 'C°'"/>
+                    <p th:if="${forecast.tomorrow() != null}" th:text="'Niederschlag: ' + ${forecast.tomorrow().precipMm()} + 'mm'"/>
+                    <p th:if="${forecast.tomorrow() != null}" th:text="'Windgeschwindigkeit: ' + ${forecast.tomorrow().windKph()} + 'kph'"/>
+                    <h3 th:if="${forecast.dayAfterTomorrow() != null}">Day after tomorrow</h3>
+                    <p th:if="${forecast.dayAfterTomorrow() != null}" th:text="'Temparature: ' + ${forecast.dayAfterTomorrow().tempC()} + 'C°'"/>
+                    <p th:if="${forecast.dayAfterTomorrow() != null}" th:text="'Niederschlag: ' + ${forecast.dayAfterTomorrow().precipMm()} + 'mm'"/>
+                    <p th:if="${forecast.dayAfterTomorrow() != null}" th:text="'Windgeschwindigkeit: ' + ${forecast.dayAfterTomorrow().windKph()} + 'kph'"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

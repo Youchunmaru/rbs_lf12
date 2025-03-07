@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>User | HOME PLANER</title>
+</head>
+<body>
+<div th:replace="~{fragments/main :: main(loc='Users',breadcrumb=~{ :: .user})}">
+    <div class="user container">
+        <p th:text="'name: ' + ${user.username}" />
+        <p th:text="'email: ' + ${user.email}" />
+        <a th:href="@{/user/edit/{id}(id = ${user.id})}">Edit</a>
+    </div>
+</div>
+</body>
+</html>

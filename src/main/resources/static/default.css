@@ -1,2 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+    --min-margin: 0.5em;
+    --min-padding: 0.5em;
+    --margin: 1em;
+    --padding: 1em;
+    --max-margin: 2em;
+    --max-padding: 2em;
+    --border-radius: 0.25em;
+    --md-sys-color-primary: rgb(123 88 13);
+    --md-sys-color-surface-tint: rgb(123 88 13);
+    --md-sys-color-on-primary: rgb(255 255 255);
+    --md-sys-color-primary-container: rgb(255 222 169);
+    --md-sys-color-on-primary-container: rgb(39 25 0);
+    --md-sys-color-secondary: rgb(65 104 52);
+    --md-sys-color-on-secondary: rgb(255 255 255);
+    --md-sys-color-secondary-container: rgb(194 239 174);
+    --md-sys-color-on-secondary-container: rgb(3 33 0);
+    --md-sys-color-tertiary: rgb(140 74 96);
+    --md-sys-color-on-tertiary: rgb(255 255 255);
+    --md-sys-color-tertiary-container: rgb(255 217 226);
+    --md-sys-color-on-tertiary-container: rgb(58 7 29);
+    --md-sys-color-error: rgb(186 26 26);
+    --md-sys-color-on-error: rgb(255 255 255);
+    --md-sys-color-error-container: rgb(255 218 214);
+    --md-sys-color-on-error-container: rgb(65 0 2);
+    --md-sys-color-background: rgb(255 248 243);
+    --md-sys-color-on-background: rgb(32 27 19);
+    --md-sys-color-surface: rgb(245 250 251);
+    --md-sys-color-on-surface: rgb(23 29 30);
+    --md-sys-color-surface-variant: rgb(219 228 230);
+    --md-sys-color-on-surface-variant: rgb(63 72 74);
+    --md-sys-color-outline: rgb(111 121 122);
+    --md-sys-color-outline-variant: rgb(191 200 202);
+    --md-sys-color-shadow: rgb(0 0 0);
+    --md-sys-color-scrim: rgb(0 0 0);
+    --md-sys-color-inverse-surface: rgb(43 49 51);
+    --md-sys-color-inverse-on-surface: rgb(236 242 243);
+    --md-sys-color-inverse-primary: rgb(238 191 109);
+    --md-sys-color-primary-fixed: rgb(255 222 169);
+    --md-sys-color-on-primary-fixed: rgb(39 25 0);
+    --md-sys-color-primary-fixed-dim: rgb(238 191 109);
+    --md-sys-color-on-primary-fixed-variant: rgb(95 65 0);
+    --md-sys-color-secondary-fixed: rgb(194 239 174);
+    --md-sys-color-on-secondary-fixed: rgb(3 33 0);
+    --md-sys-color-secondary-fixed-dim: rgb(166 211 148);
+    --md-sys-color-on-secondary-fixed-variant: rgb(42 79 31);
+    --md-sys-color-tertiary-fixed: rgb(255 217 226);
+    --md-sys-color-on-tertiary-fixed: rgb(58 7 29);
+    --md-sys-color-tertiary-fixed-dim: rgb(255 177 200);
+    --md-sys-color-on-tertiary-fixed-variant: rgb(112 51 72);
+    --md-sys-color-surface-dim: rgb(213 219 220);
+    --md-sys-color-surface-bright: rgb(245 250 251);
+    --md-sys-color-surface-container-lowest: rgb(255 255 255);
+    --md-sys-color-surface-container-low: rgb(239 245 246);
+    --md-sys-color-surface-container: rgb(233 239 240);
+    --md-sys-color-surface-container-high: rgb(227 233 234);
+    --md-sys-color-surface-container-highest: rgb(222 227 229);
+    --md-extended-color-custom-color-color: rgb(58 96 143);
+    --md-extended-color-custom-color-on-color: rgb(255 255 255);
+    --md-extended-color-custom-color-color-container: rgb(211 227 255);
+    --md-extended-color-custom-color-on-color-container: rgb(0 28 57);
+
+}
+
 html {
+    background: var(--md-sys-color-background);
+}
+
+.app {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-flow: row;
+}
+
+.navbar{
+    display: grid;
+    grid-auto-flow: column;
+}
+
+.header{
+    display: grid;
+    grid-auto-flow: column;
+}
+.header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: var(--min-margin);
+    padding: var(--min-padding);
+    border-radius: var(--border-radius);
+    background-color: var(--md-sys-color-background);
+    color: var(--md-sys-color-on-background);
+}
+
+.container *{
+    margin: var(--margin);
+}
+
+.edit{
+
+}
+
+.result{
+
+}
+
+.new{
+
+}
+
+input[type='date'], input[type='datetime-local']{
+    background-color: var(--md-sys-color-background);
+    font-family: Roboto, serif;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 400;
+    color: var(--md-sys-color-on-background);
+    border: 1px solid var(--md-sys-color-on-background);
+    border-radius: var(--border-radius);
 }

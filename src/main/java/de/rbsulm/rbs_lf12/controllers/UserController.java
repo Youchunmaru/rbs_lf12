@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @Controller // This means that this class is a Controller
 @RequestMapping(path="/user") // This means URL's start with /demo (after Application path)
 public class UserController {
@@ -17,30 +19,60 @@ public class UserController {
 
   @GetMapping("/show")
   public String users(Model model) {
-    model.addAttribute("users", userRepository.findAll());
+    HomeController.defaultSiteSetup(model, userRepository).addAttribute("users", userRepository.findAll());
     return "users";
+  }
+  @GetMapping(path = "/user/{id}")
+  public String user(Model model, @PathVariable("id") String id) {
+    final Optional<User> user = userRepository.findById(Integer.parseInt(id));
+    user.ifPresent(value -> HomeController.defaultSiteSetup(model, userRepository).addAttribute("user", value));
+    return "user";
+  }
+
+  @GetMapping(path = "/edit/{id}")
+  public String edit(Model model, @PathVariable int id) {
+    final Optional<User> user = userRepository.findById(id);
+    user.ifPresent(value -> HomeController.defaultSiteSetup(model, userRepository).addAttribute("user", value));
+    return "editUser";
+  }
+  @PostMapping(path = "/edit/{id}")
+  public String edit(Model model, @ModelAttribute() User user, @PathVariable int id) {
+    final Optional<User> dbUser = userRepository.findById(id);
+    dbUser.ifPresent(value -> {
+      if (!user.getUsername().equals(value.getUsername())) {
+        user.setUsername(value.getUsername());
+      }
+      try{
+        final String password = new BCryptPasswordEncoder().encode(user.getPassword());
+        if (!user.getPassword().equals(password)) {
+          user.setPassword(password);
+        }
+      }catch (Exception e){
+        e.printStackTrace();
+      }
+      if (!user.getEmail().equals(user.getEmail())) {
+        user.setEmail(user.getEmail());
+      }
+      HomeController.defaultSiteSetup(model, userRepository).addAttribute("user", value);
+      userRepository.save(value);
+    });
+    return "editUserResult";
   }
 
   @GetMapping("/newUser")
-  public String addNewUserFrom(Model model){
-    model.addAttribute("user", new User());
-    return "userForm";
+  public String newUser(Model model){
+    HomeController.defaultSiteSetup(model, userRepository).addAttribute("user", new User());
+    return "newUser";
   }
 
   @PostMapping(path="/newUser") // Map ONLY POST Requests
-  public String addNewUser(@ModelAttribute User user, Model model) {
-    model.addAttribute("user", user);
+  public String newUser(@ModelAttribute User user, Model model) {
+    HomeController.defaultSiteSetup(model, userRepository).addAttribute("user", user);
 
     final String password = new BCryptPasswordEncoder().encode(user.getPassword());
     user.setPassword(password);
     user.setEnabled(true);
     userRepository.save(user);
-    return "userFormResult";
-  }
-
-  @GetMapping(path="/all")
-  public @ResponseBody Iterable<User> getAllUsers() {
-    // This returns a JSON or XML with the users
-    return userRepository.findAll();
+    return "newUserResult";
   }
 }

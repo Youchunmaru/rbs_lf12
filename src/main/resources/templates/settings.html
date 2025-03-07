@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Settings | HOME PLANER</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div th:replace="~{fragments/main :: main(loc='Home',breadcrumb=~{ :: .new})}">
+    <form class="new container" action="#" th:action="@{/settings}" th:object="${settings}" method="post">
+        <md-outlined-text-field th:each="setting : ${settings}" type="text" th:label="${setting.setting}" th:name="${setting.setting}" th:value="${setting.value}"></md-outlined-text-field>
+        <div><md-outlined-button type="submit">Update</md-outlined-button>
+            <md-outlined-button th:href="@{/home}">Back</md-outlined-button></div>
+    </form>
+</div>
+</body>
+</html>

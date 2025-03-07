@@ -1,0 +1,32 @@
+calendar_category:
+id: unique long
+category: string
+
+calendar_event:
+id: unique long
+description: string
+location: string
+startDate: long
+title: string
+category_id: long
+user_id: long
+
+settings:
+id: unique long
+setting: unique string
+value: string
+user_id: long
+
+todo:
+id: unique long
+description: string
+title: string
+due_date: Date
+user_id: long
+
+users:
+id: unique long
+username: unique string
+password: string
+email: string
+enabled: boolean

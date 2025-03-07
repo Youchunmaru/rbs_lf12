@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Calendar | HOME PLANER</title>
+</head>
+<body>
+<div th:replace="~{fragments/main :: main(loc='Calendar',breadcrumb=~{ :: .calendar})}">
+    <div class="container calendar">
+        <a class="day" th:each="day : ${events}" th:href="@{/calendarEvent/show/{day}(day=${day.getKey()})}">
+            <h3 th:text="${day.getKey()}"></h3>
+            <p th:each="event : ${day.getValue()}" th:text="${event.title}"></p>
+        </a>
+    </div>
+</div>
+</body>
+</html>

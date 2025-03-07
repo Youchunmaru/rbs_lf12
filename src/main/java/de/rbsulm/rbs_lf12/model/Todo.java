@@ -19,6 +19,10 @@ public class Todo {
     private String description;
     private Date dueDate;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
 
     public String getDueDateString(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

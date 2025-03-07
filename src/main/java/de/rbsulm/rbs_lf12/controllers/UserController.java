@@ -39,19 +39,21 @@ public class UserController {
   public String edit(Model model, @ModelAttribute() User user, @PathVariable int id) {
     final Optional<User> dbUser = userRepository.findById(id);
     dbUser.ifPresent(value -> {
-      if (!user.getUsername().equals(value.getUsername())) {
-        user.setUsername(value.getUsername());
+      if (!user.getUsername().isEmpty() && !user.getUsername().equals(value.getUsername())) {
+        value.setUsername(value.getUsername());
       }
       try{
-        final String password = new BCryptPasswordEncoder().encode(user.getPassword());
-        if (!user.getPassword().equals(password)) {
-          user.setPassword(password);
+        if (user.getPassword().length() > 7) {
+          final String password = new BCryptPasswordEncoder().encode(user.getPassword());
+          if (!value.getPassword().equals(password)) {
+            value.setPassword(password);
+          }
         }
       }catch (Exception e){
         e.printStackTrace();
       }
-      if (!user.getEmail().equals(user.getEmail())) {
-        user.setEmail(user.getEmail());
+      if (!user.getEmail().equals(value.getEmail())) {
+        value.setEmail(user.getEmail());
       }
       HomeController.defaultSiteSetup(model, userRepository).addAttribute("user", value);
       userRepository.save(value);

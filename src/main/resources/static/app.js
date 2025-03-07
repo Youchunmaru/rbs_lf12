@@ -17,7 +17,7 @@ function initTabs() {
                 window.location.assign("/todo/show");
                 break;
             case 3:
-                window.location.assign("/calendarEvent/show");
+                window.location.assign("/calendarEvent/calendar");
                 break;
             default:
                 break;

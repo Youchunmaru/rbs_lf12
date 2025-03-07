@@ -17,13 +17,26 @@
             <div id="todos" class="container">
                 <h2>Todos</h2>
                 <div class="content">
-                    <p>todo info</p>
+                    <h3>Today</h3>
+                    <p th:each="todayT : ${todosToday}" th:text="${todayT.title}"></p>
+                    <p th:if="${todosToday.isEmpty()}">Nothing to do today</p>
+                    <h3>Tomorrow</h3>
+                    <p th:each="tomorrowT : ${todosTomorrow}" th:text="${tomorrowT.title}"></p>
+                    <p th:if="${todosTomorrow.isEmpty()}">Nothing to do today</p>
+                    <h3>No due date</h3>
+                    <p th:each="noDueDateT : ${todosNoDueDate}" th:text="${noDueDateT.title}"></p>
+                    <p th:if="${todosNoDueDate.isEmpty()}">Nothing to do</p>
                 </div>
             </div>
             <div id="calendar" class="container">
                 <h2>Calendar</h2>
                 <div class="content">
-                    <p>calendar info</p>
+                    <h3>Today</h3>
+                    <p th:each="todayE : ${calendarEventsToday}" th:text="${todayE.title}"></p>
+                    <p th:if="${calendarEventsToday.isEmpty()}">Nothing today</p>
+                    <h3>Tomorrow</h3>
+                    <p th:each="tomorrowE : ${calendarEventsTomorrow}" th:text="${tomorrowE.title}"></p>
+                    <p th:if="${calendarEventsTomorrow.isEmpty()}">Nothing tomorrow</p>
                 </div>
             </div>
             <div id="weather" class="container">

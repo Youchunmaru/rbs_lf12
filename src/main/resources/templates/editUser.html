@@ -6,9 +6,9 @@
 <body>
 <div th:replace="~{fragments/main :: main(loc='Users',breadcrumb=~{ :: .edit})}">
     <form class="edit container" action="#" th:action="@{/user/edit/{id}(id = ${user.id})}" th:object="${user}" method="post">
-        <md-outlined-text-field type="text" label="Username" name="username"></md-outlined-text-field>
+        <md-outlined-text-field type="text" label="Username" name="username" th:value="${user.username}"></md-outlined-text-field>
         <md-outlined-text-field type="password" label="Password" name="password"></md-outlined-text-field>
-        <md-outlined-text-field type="email" label="E-Mail" name="email"></md-outlined-text-field>
+        <md-outlined-text-field type="email" label="E-Mail" name="email" th:value="${user.email}"></md-outlined-text-field>
         <p> <md-outlined-button type="submit">Submit</md-outlined-button>
             <md-outlined-button type="reset">Reset</md-outlined-button> </p>
     </form>

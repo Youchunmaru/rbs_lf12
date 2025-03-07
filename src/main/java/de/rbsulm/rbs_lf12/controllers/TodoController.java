@@ -3,11 +3,16 @@ package de.rbsulm.rbs_lf12.controllers;
 import de.rbsulm.rbs_lf12.model.Todo;
 import de.rbsulm.rbs_lf12.mysql.TodoRepository;
 import de.rbsulm.rbs_lf12.mysql.UserRepository;
+import de.rbsulm.rbs_lf12.services.EmailService;
+import de.rbsulm.rbs_lf12.services.SchedulerService;
+import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Optional;
 
 @Controller // This means that this class is a Controller
@@ -20,9 +25,14 @@ public class TodoController {
   @Autowired
   private UserRepository userRepository;
 
+  @Autowired
+  private SchedulerService schedulerService;
+  @Autowired
+  private EmailService emailService;
+
   @GetMapping(path = "/show")
   public String show(Model model) {
-    HomeController.defaultSiteSetup(model, userRepository).addAttribute("todos", todoRepository.findAll());
+    HomeController.defaultSiteSetup(model, userRepository).addAttribute("todos", todoRepository.findAllByUser_Id(HomeController.getCurrentUser(userRepository).getId()));
     return "todos";
   }
   @GetMapping(path = "/edit/{id}")
@@ -45,8 +55,20 @@ public class TodoController {
   @PostMapping(path = "/newTodo")
   public String newTodo(@ModelAttribute Todo todo, Model model){
     HomeController.defaultSiteSetup(model, userRepository).addAttribute("todo", todo);
+    todo.setUser(HomeController.getCurrentUser(userRepository));
     todoRepository.save(todo);
-    //todo mail sender quartz scheduler todo.getDueDate();
+    if (todo.getDueDate() != null && todo.getDueDate().after(new Date())){
+      try {
+        schedulerService.schedule(todo.getDueDate().toLocalDate().minusDays(1).atStartOfDay(),
+                () -> {
+                  System.out.println("todo email send");
+                  //todo emailService.sendMail("", todo.getTitle(), todo.getDescription());
+                });
+
+      }catch (SchedulerException e){
+        e.printStackTrace();
+      }
+    }
     return "newTodoResult";
   }
 }

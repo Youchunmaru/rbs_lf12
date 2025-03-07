@@ -133,3 +133,22 @@ input[type='date'], input[type='datetime-local']{
     border: 1px solid var(--md-sys-color-on-background);
     border-radius: var(--border-radius);
 }
+
+.calendar{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+}
+
+.day{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: var(--min-margin);
+    padding: var(--min-padding);
+    border-radius: var(--border-radius);
+    background-color: var(--md-sys-color-background);
+    color: var(--md-sys-color-on-background);
+    border: 1px solid var(--md-sys-color-on-background);
+}

@@ -8,5 +8,6 @@ import java.sql.Date;
 import java.util.List;
 
 public interface CalendarEventRepository extends CrudRepository<CalendarEvent, Integer> {
-    List<CalendarEvent> getCalendarEventsByStartDateAfter(Long startDateAfter);
+
+    List<CalendarEvent> getCalendarEventsByStartDateAfterAndStartDateBefore(long l, long l1);
 }

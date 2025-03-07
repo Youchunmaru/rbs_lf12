@@ -17,7 +17,7 @@
                 <md-menu-item type="link" th:href="@{/user/user/{id}(id = ${currentUser.id})}">
                     <div slot="headline" th:text="${currentUser.username}"></div>
                 </md-menu-item>
-                <md-menu-item>
+                <md-menu-item type="link" th:href="@{/settings}">
                     <div slot="headline">Settings</div>
                 </md-menu-item>
                 <md-menu-item type="link" th:href="@{/logout}">

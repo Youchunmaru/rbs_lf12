@@ -7,6 +7,9 @@ import de.rbsulm.rbs_lf12.model.User;
 import de.rbsulm.rbs_lf12.mysql.CalendarCategoryRepository;
 import de.rbsulm.rbs_lf12.mysql.CalendarEventRepository;
 import de.rbsulm.rbs_lf12.mysql.UserRepository;
+import de.rbsulm.rbs_lf12.services.EmailService;
+import de.rbsulm.rbs_lf12.services.SchedulerService;
+import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,9 +20,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller // This means that this class is a Controller
 @RequestMapping(path="/calendarEvent") // This means URL's start with /calendarEvent (after Application path)
@@ -31,11 +33,20 @@ public class CalendarEventController {
   private CalendarCategoryRepository calendarCategoryRepository;
   @Autowired
   private UserRepository userRepository;
+  @Autowired
+  private SchedulerService schedulerService;
+  @Autowired
+  private EmailService emailService;
 
-  @GetMapping("/show")
-  public String calendarEvents(Model model) {
-    final List<CalendarEvent> calendarEventList = calendarEventRepository.getCalendarEventsByStartDateAfter(new java.util.Date().getTime());
-    HomeController.defaultSiteSetup(model, userRepository).addAttribute("events", calendarEventList.stream().map(ThymeCalendarEvent::new).toList());
+  @GetMapping("/show/{day}")
+  public String calendarEvents(Model model, @PathVariable int day) {
+    final LocalDateTime now = LocalDateTime.now();
+    final LocalDateTime dayDTStart = now.minusDays(now.getDayOfMonth()).plusDays(day).toLocalDate().atStartOfDay();
+    final LocalDateTime dayDTEnd = dayDTStart.plusDays(1).toLocalDate().atStartOfDay();
+    final List<CalendarEvent> calendarEventList = calendarEventRepository.getCalendarEventsByStartDateAfterAndStartDateBefore(dayDTStart.toEpochSecond(ZoneOffset.UTC) * 1000, dayDTEnd.toEpochSecond(ZoneOffset.UTC) * 1000);
+    calendarEventList.sort(Comparator.comparing(CalendarEvent::getStartDate));
+    final List<CalendarEvent> filterdList = calendarEventList.stream().filter(it -> Objects.equals(it.getUser().getId(), HomeController.getCurrentUser(userRepository).getId())).toList();
+    HomeController.defaultSiteSetup(model, userRepository).addAttribute("events", filterdList.stream().map(ThymeCalendarEvent::new).toList());
     return "events";
   }
   /*@GetMapping(path = "/event/{id}")
@@ -70,15 +81,29 @@ public class CalendarEventController {
   public String NewEvent(@ModelAttribute ThymeCalendarEvent event, Model model) {
     final CalendarEvent newEvent = new CalendarEvent();
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    final LocalDateTime ldt = LocalDateTime.parse(event.getStartDate().replace("T", " "), formatter);
     newEvent.setTitle(event.getTitle());
     newEvent.setDescription(event.getDescription());
     newEvent.setLocation(event.getLocation());
-    newEvent.setStartDate(LocalDateTime.parse(event.getStartDate().replace("T", " "), formatter).toEpochSecond(ZoneOffset.UTC) * 1000);
+    newEvent.setStartDate(ldt.toEpochSecond(ZoneOffset.UTC) * 1000);
     newEvent.setCategory(event.getCategory());
+    newEvent.setUser(HomeController.getCurrentUser(userRepository));
     HomeController.defaultSiteSetup(model, userRepository).addAttribute("event", newEvent)
             .addAttribute("dateTime", event.getStartDate().replace("T" , " "));
-
     calendarEventRepository.save(newEvent);
+    if (ldt.minusDays(1).isAfter(LocalDateTime.now())) {
+      try {
+        schedulerService.schedule(ldt.minusDays(1),
+                () -> {
+                    System.out.println("calendar email send");
+                    //todo emailService.sendMail("", event.getTitle() + " " + event.getLocation(), event.getDescription());
+                });
+
+      }catch (SchedulerException e){
+        e.printStackTrace();
+      }
+    }
+
     return "newEventResult";
   }
   @GetMapping("/newCategory")
@@ -93,5 +118,31 @@ public class CalendarEventController {
 
     calendarCategoryRepository.save(category);
     return "newCategoryResult";
+  }
+
+  @GetMapping(path = "/calendar")
+  public String calendar(Model model){
+    final LocalDateTime now = LocalDateTime.now();
+    final LocalDateTime startOfMonth = now.minusDays(now.getDayOfMonth());
+    final LocalDateTime endOfMonth = startOfMonth.plusDays(startOfMonth.getMonth().maxLength());
+    final List<CalendarEvent> calendarEventList = new ArrayList<>(calendarEventRepository.getCalendarEventsByStartDateAfterAndStartDateBefore(startOfMonth.toEpochSecond(ZoneOffset.UTC) * 1000, endOfMonth.toEpochSecond(ZoneOffset.UTC) * 1000)
+            .stream().filter(it -> Objects.equals(it.getUser().getId(), HomeController.getCurrentUser(userRepository).getId())).toList());
+    calendarEventList.sort(Comparator.comparing(CalendarEvent::getStartDate));
+    final Map<Integer, List<CalendarEvent>> eventMap = new HashMap<Integer, List<CalendarEvent>>();
+    calendarEventList.forEach(calendarEvent -> {
+      final int day = LocalDateTime.ofEpochSecond(calendarEvent.getStartDate() / 1000, (int)(calendarEvent.getStartDate() % 1000), ZoneOffset.UTC).getDayOfMonth();
+      if (!eventMap.containsKey(day)) {
+        eventMap.put(day, List.of(calendarEvent));
+      }else{
+        eventMap.get(day).add(calendarEvent);
+      }
+    });
+    for (int i = 1; i <= now.getMonth().maxLength(); i++) {
+      if (!eventMap.containsKey(i)) {
+        eventMap.put(i, new ArrayList<>());
+      }
+    }
+    HomeController.defaultSiteSetup(model, userRepository).addAttribute("events", eventMap);
+    return "calendar";
   }
 }

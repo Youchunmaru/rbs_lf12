@@ -19,7 +19,7 @@ public class ApiController {
 
             // Configure API key authorization: ApiKeyAuth
             ApiKeyAuth ApiKeyAuth = (ApiKeyAuth) defaultClient.getAuthentication("ApiKeyAuth");
-            ApiKeyAuth.setApiKey("b69476b185a04fd0a6b110333251702");
+            ApiKeyAuth.setApiKey("");
             // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
             //ApiKeyAuth.setApiKeyPrefix("Token");
 
@@ -59,7 +59,7 @@ public class ApiController {
         public static InlineResponse2001 getForecast(final String cityName, final int forecastDays){
             ApiClient apiClient = Configuration.getDefaultApiClient();
             ApiKeyAuth ApiKeyAuth = (ApiKeyAuth) apiClient.getAuthentication("ApiKeyAuth");
-            ApiKeyAuth.setApiKey("b69476b185a04fd0a6b110333251702");
+            ApiKeyAuth.setApiKey("");
 
             ApIsApi apiInstance = new ApIsApi();
             try{
